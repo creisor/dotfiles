@@ -1,0 +1,66 @@
+if [ -f /etc/bashrc ]; then
+  . /etc/bashrc   # --> Read /etc/bashrc, if present.
+fi
+
+HISTFILESIZE=1000000000
+HISTSIZE=1000000
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+    xterm-256color) color_prompt=yes;;
+    screen) color_prompt=yes
+            PROMPT_COMMAND='echo -ne "\033k$HOSTNAME\033\\"'
+            ;;
+    linux)
+            #we're on the system console or maybe telnetting in
+            export PS1="\u@\H [\W]% "
+            ;;
+    *)      export PS1="\[\e[1m\]\u@\H [\W]% \[\e[0m\]"
+            ;;
+esac
+
+function color_my_prompt {
+    #local __user_and_host="\[\033[01;32m\]\u@\h"
+    #local __user_and_host="\[\033[48;5;248m\]\u@\h"
+    local __user_and_host="\[\033[01;4m\]\u@\h"
+    local __cur_location="\w"
+    local __git_branch_color="\[\033[31m\]"
+    local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+    local __prompt_tail="\[\033[35m\]$"
+    local __last_color="\[\033[00m\]"
+    export PS1="$__user_and_host $__cur_location $__git_branch_color$__git_branch$__prompt_tail$__last_color "
+}
+
+if [ "$color_prompt" = yes ]; then
+    color_my_prompt
+else
+    PS1='\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+#if [ -f ~/.Xmodmap ]; then
+#  xmodmap ~/.Xmodmap
+#fi
+
+if [ -f ~/.bash_aliases ]; then
+	source ~/.bash_aliases  
+fi
+
+shopt -s checkhash
+shopt -s cmdhist
+shopt -s histappend
+shopt -s histverify
+shopt -s no_empty_cmd_completion
+#set -o vi
+
+#unset INPUTRC
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+export LSCOLORS=ExfxcxdxBxegedabagacad
+
+export GOPATH=~/go
+export PATH=~/go/bin:$PATH
