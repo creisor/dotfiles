@@ -1,0 +1,15 @@
+[user]
+	name = Chris Reisor
+	email = creisor@gmail.com
+[core]
+	editor = vim
+	excludesfile = /Users/creisor/.gitignore
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  l = log --date=short --pretty=format:"%h%x09%an%x09%ad%x09%s"
+  mine = log --date=short --author=creisor@gmail.com --pretty=format:"%h%x09%an%x09%ad%x09%s"
+	unadd = reset HEAD
+[color]
+	ui = true
+[push]
+	default = current
