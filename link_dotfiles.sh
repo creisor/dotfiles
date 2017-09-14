@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#DOTFILES=(bashrc inputrc)
-DOTFILES=(files/*)
+DOTFILES=($(dirname $0)/files/*)
 
 SOURCE_DIR=~/git/dotfiles/files
 
