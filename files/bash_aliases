@@ -1,0 +1,1 @@
+alias screen="tmux new -s creisor"
