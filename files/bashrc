@@ -12,6 +12,9 @@ case "$TERM" in
     screen) color_prompt=yes
             PROMPT_COMMAND='echo -ne "\033k$HOSTNAME\033\\"'
             ;;
+    screen-256color) color_prompt=yes
+            PROMPT_COMMAND='echo -ne "\033k$HOSTNAME\033\\"'
+            ;;
     linux)
             #we're on the system console or maybe telnetting in
             export PS1="\u@\H [\W]% "
@@ -65,6 +68,12 @@ if [ -f ~/.git-completion.bash ]; then
 fi
 
 export LSCOLORS=ExfxcxdxBxegedabagacad
+
+# from: https://github.com/lollipopman/bash-rsi/blob/master/bashrc
+# Switch to block cursor before invoking a command, so we don't mess with our
+# applications, which don't query for the cursor state, e.g. vim
+PS0='\e[2 q'
+export PS0
 
 export GOPATH=~/go
 export PATH=~/go/bin:$PATH
