@@ -90,3 +90,5 @@ export PS0
 
 export GOPATH=~/go
 export PATH=~/go/bin:$PATH
+
+. "$HOME/.local/bin/env"

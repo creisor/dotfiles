@@ -1,0 +1,105 @@
+if [[ -e "$HOME/.oh-my-zsh" ]]; then
+  export ZSH="$HOME/.oh-my-zsh"
+  #ZSH_THEME="robbyrussell"
+  #ZSH_THEME="agnoster"
+  ZSH_THEME="Lukerandall"
+  plugins=(
+    git
+    ansible
+    kubectl
+    vi-mode
+    tig
+  )
+  source $ZSH/oh-my-zsh.sh
+
+  # some plugin settings
+  VI_MODE_SET_CURSOR=true
+  VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=trueVI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
+else
+  PROMPT='%B%F{cyan}%n%f%b:%~ %# '
+  # Load version control information
+  autoload -Uz vcs_info
+  precmd() { vcs_info }
+
+  # Format the vcs_info_msg_0_ variable
+  zstyle ':vcs_info:git:*' formats 'on branch %b'
+   
+  # Set up the prompt (with git branch name)
+  setopt PROMPT_SUBST
+  RPROMPT=\$vcs_info_msg_0_
+fi
+
+set -o vi
+bindkey -v
+bindkey '^R' history-incremental-search-backward
+
+setopt nosharehistory
+
+#PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+#PROMPT+=' %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)'
+
+alias k="kubecolor"
+alias kctx="kubectl ctx"
+alias kns="kubectl ns"
+
+alias ap="ansible-playbook -t vars"
+
+alias tf="terraform"
+alias tg="terragrunt"
+
+# if [ -x /opt/homebrew/bin/nvim ]; then
+#   alias vim="nvim"
+# fi
+
+if [ -x /opt/homebrew/bin/lsd ]; then
+  alias ls="lsd"
+fi
+
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+function unset-aws-creds
+{
+  unset AWS_ACCESS_KEY_ID
+  unset AWS_SECRET_ACCESS_KEY
+  unset AWS_SESSION_TOKEN
+  unset AWS_EXPIRATION
+}
+
+function aws-whoami
+{
+  aws sts get-caller-identity
+}
+
+function gcal_notify() {
+  gcalcli --nocolor agenda --tsv | while read -r time event; do
+    osascript -e "display notification \"$event\" with title \"Google Calendar\""
+  done
+}
+
+# stops shell from cd'ing into a dir if you just type the dir name without 'cd'
+# before it (because most Python projects have a subdirectory with the package
+# name in it, so in a venv when you try to type the command, it just cds for
+# you and that's so annoying
+unsetopt autocd
+
+export EDITOR=nvim
+export AWS_PAGER=''
+export GOPATH=$HOME/go
+export GOROOT="$(brew --prefix golang)/libexec"
+export PATH="/opt/homebrew/opt/findutils/libexec/gnubin:${PATH}:${GOPATH}/bin:${GOROOT}/bin:${HOME}/git/tools:${HOME}/.krew/bin:${HOME}/git/devmachine:${HOME}/Library/Python/3.9/bin:${HOME}/.docker/bin"
+eval "$(rbenv init - zsh)"
+eval "$(direnv hook zsh)"
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init - zsh)"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+. "$HOME/.local/bin/env"
+
+# opencode
+#export PATH=/Users/chris.reisor/.opencode/bin:$PATH
+
+# gg: aliased to git gui citool
+#gg
