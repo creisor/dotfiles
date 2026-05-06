@@ -47,6 +47,9 @@ alias ap="ansible-playbook -t vars"
 alias tf="terraform"
 alias tg="terragrunt"
 
+alias g="git"
+alias gd="git diff"
+
 # if [ -x /opt/homebrew/bin/nvim ]; then
 #   alias vim="nvim"
 # fi
@@ -111,5 +114,9 @@ fi
 # opencode
 #export PATH=/Users/chris.reisor/.opencode/bin:$PATH
 
-# gg: aliased to git gui citool
-#gg
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Created by `pipx` on 2026-05-03 14:35:43
+export PATH="$PATH:/Users/chris/.local/bin"
